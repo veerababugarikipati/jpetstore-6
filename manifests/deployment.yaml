@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: jpetstore
-          image: acr3939.azurecr.io/jpetstore-6:27
+          image: acr3939.azurecr.io/jpetstore
           ports:
           - containerPort: 8080
