@@ -2,10 +2,10 @@ trigger:
 - master
 
 variables:
-  imageRepository: 'jpetstore-6'
+  imageRepository: 'jpetstore'
   dockerRegistryServiceConnection: 'acr3939'
   dockerfilePath: 'Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '$(Build.SourceVersion)'
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -34,3 +34,13 @@ stages:
           containerRegistry: $(dockerRegistryServiceConnection)
           tags: |
             $(tag)
+            
+      - task: PublishPipelineArtifact@1
+        inputs:
+          artifactName: 'manifests'
+          path: 'manifests'
+            
+            
+            
+            
+            
