@@ -28,7 +28,7 @@ stages:
         displayName: Login to ACR
         inputs:
           command: login
-          containerRegistry: acr-amar
+          containerRegistry: acr3939
       
       - task: Docker@2
         displayName: Build
@@ -36,7 +36,7 @@ stages:
           command: build
           repository: $(imageRepository)
           dockerfile: $(dockerfilePath)
-          containerRegistry: acr-amar
+          containerRegistry: acr3939
           tags: |
             $(tag)
             
@@ -44,4 +44,4 @@ stages:
         displayName: Logout of ACR
         inputs:
           command: logout
-          containerRegistry: acr-amar
+          containerRegistry: acr3939
