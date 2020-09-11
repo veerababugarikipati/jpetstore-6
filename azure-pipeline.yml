@@ -6,16 +6,21 @@ variables:
   dockerRegistryServiceConnection: 'acr3939'
   dockerfilePath: 'Dockerfile'
   tag: '$(Build.SourceVersion)'
+  imageName: 'jpetstore'
+  clusterName: 'amaraks'
+  namespace: 'default'
+  imagePullSecret: 'jpetstore-pull-secret'
+  containerRegistry: 'acr3939.azurecr.io'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: Build
-    displayName: Build
-    jobs:
-    - job: Build
-      steps:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    steps:
       - task: Maven@3
         displayName: 'Maven pom.xml'
         inputs:
@@ -34,13 +39,48 @@ stages:
           containerRegistry: $(dockerRegistryServiceConnection)
           tags: |
             $(tag)
-            
+
       - task: PublishPipelineArtifact@1
         inputs:
           artifactName: 'manifests'
           path: 'manifests'
-            
-            
-            
-            
-            
+
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy job
+    environment: $(clusterName).default
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              namespace: $(namespace)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              kubernetesServiceConnection: $(clusterName)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(namespace)
+              manifests: |
+                $(System.ArtifactsDirectory)/manifests/deployment.yaml
+                $(System.ArtifactsDirectory)/manifests/service.yaml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(Build.SourceVersion)
+              kubernetesServiceConnection: aks3939
