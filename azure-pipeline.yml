@@ -52,7 +52,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy job
-    environment: $(clusterName).default
+    environment: $(clusterName)
     strategy:
       runOnce:
         deploy:
