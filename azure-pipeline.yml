@@ -69,7 +69,7 @@ stages:
               secretName: $(imagePullSecret)
               namespace: $(namespace)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              kubernetesServiceConnection: $(clusterName)
+              kubernetesServiceConnection: aks3939
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
