@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: jpetstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jpetstore
+  template:
+    metadata:
+      labels:
+        app: jpetstore
+    spec:
+      containers:
+        - name: jpetstore
+          image: acr3939.azurecr.io/jpetstore-6:27
+          ports:
+          - containerPort: 8080
