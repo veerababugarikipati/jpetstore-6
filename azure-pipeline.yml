@@ -7,10 +7,10 @@ variables:
   dockerfilePath: 'Dockerfile'
   tag: '$(Build.SourceVersion)'
   imageName: 'jpetstore'
-  clusterName: 'amaraks'
+  clusterName: 'aks3939'
   namespace: 'default'
   imagePullSecret: 'jpetstore-pull-secret'
-  containerRegistry: 'acr3939.azurecr.io'
+  containerRegistry: 'jpregistry.azurecr.io'
 
 pool:
   vmImage: 'ubuntu-latest'
