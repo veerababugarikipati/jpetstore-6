@@ -79,6 +79,7 @@ stages:
               manifests: |
                 $(System.ArtifactsDirectory)/manifests/deployment.yaml
                 $(System.ArtifactsDirectory)/manifests/service.yaml
+                $(System.ArtifactsDirectory)/manifests/ingress.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
