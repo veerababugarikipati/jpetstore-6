@@ -3,7 +3,7 @@ kind: Service
 metadata:
     name: jpetstore
 spec:
-    type: LoadBalancer
+    type: ClusterIp
     ports:
     - port: 8080
     selector:
