@@ -22,14 +22,15 @@ stages:
   - job: Build
     steps:
       - task: Maven@3
-        displayName: 'Maven pom.xml'
         inputs:
           mavenPomFile: 'pom.xml'
-          codeCoverageToolOption: Cobertura
-          checkStyleRunAnalysis: true
-          pmdRunAnalysis: true
-          findBugsRunAnalysis: true
-
+          publishJUnitResults: true
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          javaHomeOption: 'JDKVersion'
+          mavenVersionOption: 'Default'
+          mavenAuthenticateFeed: false
+          effectivePomSkip: false
+          sonarQubeRunAnalysis: false
       - task: Docker@2
         displayName: Build
         inputs:
