@@ -11,5 +11,5 @@ spec:
       paths:
       - backend:
           serviceName: jpetstore
-          servicePort: 8080
+          servicePort: 80
         path: /jpetstore
