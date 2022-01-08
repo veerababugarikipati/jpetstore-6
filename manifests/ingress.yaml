@@ -1,15 +1,16 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jpetstore-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
+  name:  jpetstore-ingress
 spec:
   rules:
-  - host: aks3939.20.81.78.25.nip.io
+  - host: "aks3939.20.81.78.25.nip.io"
     http:
       paths:
-      - backend:
-          serviceName: jpetstore
-          servicePort: 80
-        path: /jpetstore
+      - pathType: Prefix
+        path: "/jpetstore"
+        backend:
+          service:
+            name: jpetstore
+            port:
+              number: 80
